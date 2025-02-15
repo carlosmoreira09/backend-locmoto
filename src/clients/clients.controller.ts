@@ -22,7 +22,11 @@ export class ClientController {
   @Post()
   async create(@Body() client: CreateClientDto): Promise<GeneralReturnDto> {
     try {
-      return await this.clientService.create(client);
+      await this.clientService.create(client);
+      return {
+        status: 201,
+        message: 'Cliente adicionado',
+      };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -34,7 +38,7 @@ export class ClientController {
       const list = await this.clientService.findAll();
       return {
         status: 200,
-        message: 'Cliente removido',
+        message: 'Lista de Clientes',
         data: list,
       };
     } catch (error) {
