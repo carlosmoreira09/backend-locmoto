@@ -35,8 +35,8 @@ export class DriversService {
     return this.findOne(id);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number): Promise<DriverEntity> {
     const driver = await this.findOne(id);
-    await this.driverRepository.softRemove(driver);
+    return await this.driverRepository.softRemove(driver);
   }
 }

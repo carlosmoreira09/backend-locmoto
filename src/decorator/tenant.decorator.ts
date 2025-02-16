@@ -4,6 +4,6 @@ import { FastifyRequest } from 'fastify';
 export const TenantId = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest<FastifyRequest>();
-    return request['tenantId'];
+    return request.raw['tenantId'];
   },
 );
