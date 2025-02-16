@@ -11,6 +11,8 @@ import { UsersModule } from './users/users.module';
 import { TenantModule } from './tenant/tenant.module';
 import { ClientsModule } from './clients/clients.module';
 import { DriversModule } from './drivers/drivers.module';
+import { VehiclesModule } from './vehicles/vehicles.module';
+import { TenantMiddleware } from './middlewares/tenant.middleware';
 
 @Module({
   imports: [
@@ -29,6 +31,7 @@ import { DriversModule } from './drivers/drivers.module';
     TenantModule,
     ClientsModule,
     DriversModule,
+    VehiclesModule,
   ],
   controllers: [AppController],
   providers: [
@@ -42,6 +45,6 @@ import { DriversModule } from './drivers/drivers.module';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggingMiddleware).forRoutes('*');
+    consumer.apply(TenantMiddleware).forRoutes('*');
   }
 }
-
