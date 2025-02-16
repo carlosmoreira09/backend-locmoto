@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ClientEntity } from './entities/client.entity';
 import { CreateClientDto } from './dto/create-client.dto';
-import { GeneralReturnDto } from '../types/generalReturn.dto';
 
 @Injectable()
 export class ClientService {
@@ -12,27 +11,23 @@ export class ClientService {
     private clientRepository: Repository<ClientEntity>,
   ) {}
 
-  async create(client: CreateClientDto): Promise<GeneralReturnDto> {
+  async create(client: CreateClientDto): Promise<ClientEntity> {
     const newClient = this.clientRepository.create(client);
     const result = await this.clientRepository.save(newClient);
-
-    if (result) {
-      return {
-        status: 201,
-        message: 'Cliente Registrado com Sucesso',
-      };
-    } else {
-      throw new Error('Não foi possível cadastrar o cliente');
+    if (!result) {
+      throw new NotFoundException(`Error to save client`);
     }
+    return result;
   }
 
   async findAll(): Promise<ClientEntity[]> {
-    return await this.clientRepository.find();
+    return await this.clientRepository.find({ relations: ['drivers'] });
   }
 
   async findOne(id: number): Promise<ClientEntity> {
     const client = await this.clientRepository.findOne({
       where: { id_client: id },
+      relations: ['drivers'],
     });
     if (!client) {
       throw new NotFoundException(`Client with ID ${id} not found`);
@@ -49,11 +44,12 @@ export class ClientService {
     return await this.findOne(id);
   }
 
-  async remove(id: number): Promise<void> {
-    const result = await this.clientRepository.delete(id);
-    if (result.affected === 0) {
+  async remove(id: number): Promise<ClientEntity> {
+    const client = await this.findOne(id);
+    if (!client) {
       throw new NotFoundException(`Client with ID ${id} not found`);
     }
+    return await this.clientRepository.softRemove(client);
   }
 
   async findByCpf(document: string): Promise<ClientEntity> {

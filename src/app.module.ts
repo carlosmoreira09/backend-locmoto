@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TenantModule } from './tenant/tenant.module';
 import { ClientsModule } from './clients/clients.module';
+import { DriversModule } from './drivers/drivers.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ClientsModule } from './clients/clients.module';
     UsersModule,
     TenantModule,
     ClientsModule,
+    DriversModule,
   ],
   controllers: [AppController],
   providers: [

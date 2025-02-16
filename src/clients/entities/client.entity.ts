@@ -3,9 +3,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { DriverEntity } from '../../drivers/entities/driver.entity';
 
 @Entity('clients')
 export class ClientEntity {
@@ -68,6 +70,12 @@ export class ClientEntity {
 
   @Column({ length: 8, nullable: true })
   zip_code: string;
+
+  @OneToMany(() => DriverEntity, (driver) => driver.client, {
+    cascade: true,
+    eager: false,
+  })
+  drivers: DriverEntity[];
 
   @CreateDateColumn({ name: 'createdAt' })
   createdAt: Date;
