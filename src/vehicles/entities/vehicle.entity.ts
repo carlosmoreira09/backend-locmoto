@@ -3,9 +3,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn,
+  JoinColumn, OneToMany,
 } from 'typeorm';
 import { TenantEntity } from '../../tenant/entities/tenant.entity';
+import { TrafficFineEntity } from '../../traffic-fines/entities/traffic-fine.entity';
 
 @Entity('vehicles')
 export class VehicleEntity {
@@ -51,4 +52,10 @@ export class VehicleEntity {
   @ManyToOne(() => TenantEntity, (tenant) => tenant.vehicles)
   @JoinColumn({ name: 'tenantId' })
   tenant: TenantEntity;
+
+  @OneToMany(() => TrafficFineEntity, (driver) => driver.vehicle, {
+    cascade: true,
+    eager: false,
+  })
+  trafficFines: TrafficFineEntity[];
 }

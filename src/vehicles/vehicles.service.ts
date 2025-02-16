@@ -37,7 +37,7 @@ export class VehicleService {
     });
   }
 
-  async findOne(id: number, tenantID: number): Promise<VehicleEntity> {
+  async findOne(id: number, tenantID?: number): Promise<VehicleEntity> {
     return await this.vehicleRepository.findOne({
       where: { id, tenant: { id_tenant: tenantID } },
       relations: ['tenant'],
