@@ -13,6 +13,7 @@ import { ClientsModule } from './clients/clients.module';
 import { DriversModule } from './drivers/drivers.module';
 import { VehiclesModule } from './vehicles/vehicles.module';
 import { TenantMiddleware } from './middlewares/tenant.middleware';
+import { TrafficFinesModule } from './traffic-fines/traffic-fines.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { TenantMiddleware } from './middlewares/tenant.middleware';
     ClientsModule,
     DriversModule,
     VehiclesModule,
+    TrafficFinesModule,
   ],
   controllers: [AppController],
   providers: [

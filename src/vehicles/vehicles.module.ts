@@ -5,10 +5,13 @@ import { VehicleController } from './vehicles.controller';
 import { VehicleService } from './vehicles.service';
 import { TenantEntity } from '../tenant/entities/tenant.entity';
 import { TenantService } from '../tenant/tenant.service';
+import { TrafficFineEntity } from '../traffic-fines/entities/traffic-fine.entity';
 
 @Module({
   controllers: [VehicleController],
   providers: [VehicleService, TenantService],
-  imports: [TypeOrmModule.forFeature([VehicleEntity, TenantEntity])],
+  imports: [
+    TypeOrmModule.forFeature([VehicleEntity, TenantEntity, TrafficFineEntity]),
+  ],
 })
 export class VehiclesModule {}
