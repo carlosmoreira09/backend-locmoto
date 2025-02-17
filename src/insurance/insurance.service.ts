@@ -4,16 +4,22 @@ import { Repository } from 'typeorm';
 import { InsuranceEntity } from './entities/insurance.entity';
 import { CreateInsuranceDto } from './dto/create-insurance.dto';
 import { UpdateInsuranceDto } from './dto/update-insurance.dto';
+import { VehicleService } from '../vehicles/vehicles.service';
 
 @Injectable()
 export class InsuranceService {
   constructor(
     @InjectRepository(InsuranceEntity)
     private insuranceRepository: Repository<InsuranceEntity>,
+    private vehicleService: VehicleService,
   ) {}
 
   async create(insuranceData: CreateInsuranceDto): Promise<InsuranceEntity> {
-    const insurance = this.insuranceRepository.create(insuranceData);
+    const vehicle = await this.vehicleService.findOne(insuranceData.vehicle);
+    const insurance = this.insuranceRepository.create({
+      ...insuranceData,
+      vehicle: vehicle,
+    });
     return await this.insuranceRepository.save(insurance);
   }
 
@@ -29,7 +35,12 @@ export class InsuranceService {
     id: number,
     insuranceData: UpdateInsuranceDto,
   ): Promise<InsuranceEntity> {
-    await this.insuranceRepository.update(id, insuranceData);
+    const vehicle = await this.vehicleService.findOne(insuranceData.vehicle);
+
+    await this.insuranceRepository.update(id, {
+      ...insuranceData,
+      vehicle: vehicle,
+    });
     return await this.insuranceRepository.findOne({ where: { id } });
   }
 

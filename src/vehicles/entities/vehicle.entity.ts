@@ -10,6 +10,7 @@ import {
 import { TenantEntity } from '../../tenant/entities/tenant.entity';
 import { TrafficFineEntity } from '../../traffic-fines/entities/traffic-fine.entity';
 import { VehicleFinancialEntity } from '../../vehicle-financial/entities/vehicle-financial.entity';
+import { InsuranceEntity } from '../../insurance/entities/insurance.entity';
 
 @Entity('vehicles')
 export class VehicleEntity {
@@ -62,6 +63,13 @@ export class VehicleEntity {
   })
   trafficFines: TrafficFineEntity[];
 
-  @OneToOne(() => VehicleFinancialEntity, (financial) => financial.vehicle, { nullable: true})
+  @OneToOne(() => VehicleFinancialEntity, (financial) => financial.vehicle, {
+    nullable: true,
+  })
   vehicleFinancial: VehicleFinancialEntity;
+
+  @OneToOne(() => InsuranceEntity, (financial) => financial.vehicle, {
+    nullable: true,
+  })
+  insurance: InsuranceEntity;
 }

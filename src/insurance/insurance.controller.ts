@@ -10,7 +10,6 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { InsuranceService } from './insurance.service';
-import { InsuranceEntity } from './entities/insurance.entity';
 import { CreateInsuranceDto } from './dto/create-insurance.dto';
 
 @Controller('insurance')
@@ -28,7 +27,7 @@ export class InsuranceController {
       };
     } catch (error) {
       throw new HttpException(
-        'Error creating insurance',
+        'Error creating insurance ' + error.message,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -44,7 +43,7 @@ export class InsuranceController {
       };
     } catch (error) {
       throw new HttpException(
-        'Error fetching insurances',
+        'Error fetching insurances: ' + error.message,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -74,7 +73,10 @@ export class InsuranceController {
 
   // Update
   @Put(':id')
-  async update(@Param('id') id: number, @Body() insuranceData: InsuranceEntity) {
+  async update(
+    @Param('id') id: number,
+    @Body() insuranceData: CreateInsuranceDto,
+  ) {
     try {
       const insurance = await this.insuranceService.update(id, insuranceData);
       if (!insurance) {
