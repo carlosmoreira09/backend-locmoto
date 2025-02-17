@@ -49,6 +49,6 @@ export class VehicleFinancialEntity {
   deleted_at: Date;
 
   @OneToOne(() => VehicleEntity, (vehicle) => vehicle.vehicleFinancial)
-  @JoinColumn() // Esta decoração deve estar no lado proprietário da relação
+  @JoinColumn()
   vehicle: VehicleEntity;
 }
