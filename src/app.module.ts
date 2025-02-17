@@ -15,6 +15,7 @@ import { VehiclesModule } from './vehicles/vehicles.module';
 import { TenantMiddleware } from './middlewares/tenant.middleware';
 import { TrafficFinesModule } from './traffic-fines/traffic-fines.module';
 import { VehicleFinancialModule } from './vehicle-financial/vehicle-financial.module';
+import { InsuranceModule } from './insurance/insurance.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { VehicleFinancialModule } from './vehicle-financial/vehicle-financial.mo
     VehiclesModule,
     TrafficFinesModule,
     VehicleFinancialModule,
+    InsuranceModule,
   ],
   controllers: [AppController],
   providers: [
