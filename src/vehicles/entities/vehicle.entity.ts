@@ -3,10 +3,13 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn, OneToMany,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
 } from 'typeorm';
 import { TenantEntity } from '../../tenant/entities/tenant.entity';
 import { TrafficFineEntity } from '../../traffic-fines/entities/traffic-fine.entity';
+import { VehicleFinancialEntity } from '../../vehicle-financial/entities/vehicle-financial.entity';
 
 @Entity('vehicles')
 export class VehicleEntity {
@@ -58,4 +61,7 @@ export class VehicleEntity {
     eager: false,
   })
   trafficFines: TrafficFineEntity[];
+
+  @OneToOne(() => VehicleFinancialEntity, (financial) => financial.vehicle, { nullable: true})
+  vehicleFinancial: VehicleFinancialEntity;
 }
