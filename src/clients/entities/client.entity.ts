@@ -2,12 +2,13 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity,
-  OneToMany,
+  Entity, JoinColumn,
+  OneToMany, OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { DriverEntity } from '../../drivers/entities/driver.entity';
+import { ReceiptEntity } from '../../receipts/entities/receipt.entity';
 
 @Entity('clients')
 export class ClientEntity {
@@ -76,6 +77,10 @@ export class ClientEntity {
     eager: false,
   })
   drivers: DriverEntity[];
+
+  @OneToMany(() => ReceiptEntity, (receipt) => receipt.client)
+  @JoinColumn()
+  receipts: ReceiptEntity[];
 
   @CreateDateColumn({ name: 'createdAt' })
   createdAt: Date;
