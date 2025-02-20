@@ -13,7 +13,7 @@ export class InsuranceEntity {
   id: number;
 
   @Column()
-  companyName: string;
+  insuranceCompany: string;
 
   @Column()
   policyNumber: string;

@@ -17,6 +17,7 @@ import { TrafficFinesModule } from './traffic-fines/traffic-fines.module';
 import { VehicleFinancialModule } from './vehicle-financial/vehicle-financial.module';
 import { InsuranceModule } from './insurance/insurance.module';
 import { ReceiptsModule } from './receipts/receipts.module';
+import { PriceTableModule } from './price-table/price-table.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { ReceiptsModule } from './receipts/receipts.module';
     VehicleFinancialModule,
     InsuranceModule,
     ReceiptsModule,
+    PriceTableModule,
   ],
   controllers: [AppController],
   providers: [

@@ -5,9 +5,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn, JoinColumn, ManyToOne,
+  DeleteDateColumn, JoinColumn, ManyToOne, OneToOne,
 } from 'typeorm';
 import { ClientEntity } from '../../clients/entities/client.entity';
+import { TenantEntity } from '../../tenant/entities/tenant.entity';
 
 @Entity('receipt')
 export class ReceiptEntity {
@@ -16,9 +17,6 @@ export class ReceiptEntity {
 
   @Column()
   status: string;
-
-  @Column()
-  companyName: string;
 
   @Column()
   nfseNumber: string;
@@ -35,12 +33,16 @@ export class ReceiptEntity {
   @Column()
   contractNumber: number;
 
+  @Column()
+  price: number;
+
   @ManyToOne(() => ClientEntity, (vehicle) => vehicle.receipts)
   @JoinColumn()
   client: ClientEntity;
 
-  @Column()
-  price: number;
+  @OneToOne(() => TenantEntity, (tenant) => tenant.receipt)
+  @JoinColumn()
+  tenant: TenantEntity;
 
   @CreateDateColumn({ name: 'createdAt' })
   createdAt: Date;
