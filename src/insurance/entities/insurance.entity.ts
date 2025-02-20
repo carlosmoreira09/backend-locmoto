@@ -3,11 +3,11 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToOne,
-  JoinColumn,
+  JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn,
 } from 'typeorm';
 import { VehicleEntity } from '../../vehicles/entities/vehicle.entity';
 
-@Entity()
+@Entity('insurance')
 export class InsuranceEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -51,4 +51,13 @@ export class InsuranceEntity {
   @OneToOne(() => VehicleEntity, (vehicle) => vehicle.insurance)
   @JoinColumn()
   vehicle: VehicleEntity;
+
+  @CreateDateColumn({ name: 'createdAt' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updatedAt' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleteAt' })
+  deletedAt: Date;
 }

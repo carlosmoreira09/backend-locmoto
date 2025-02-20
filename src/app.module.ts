@@ -16,6 +16,7 @@ import { TenantMiddleware } from './middlewares/tenant.middleware';
 import { TrafficFinesModule } from './traffic-fines/traffic-fines.module';
 import { VehicleFinancialModule } from './vehicle-financial/vehicle-financial.module';
 import { InsuranceModule } from './insurance/insurance.module';
+import { ReceiptsModule } from './receipts/receipts.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { InsuranceModule } from './insurance/insurance.module';
     TrafficFinesModule,
     VehicleFinancialModule,
     InsuranceModule,
+    ReceiptsModule,
   ],
   controllers: [AppController],
   providers: [
