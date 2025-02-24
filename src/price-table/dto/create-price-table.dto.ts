@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsDate, IsNumber, IsString } from 'class-validator';
 
 export class CreatePriceTableDto {
   @IsNumber()
@@ -11,4 +11,8 @@ export class CreatePriceTableDto {
   period: string;
   @IsString()
   tenant: number;
+  @IsDate()
+  validFrom: Date;
+  @IsDate()
+  validTo: Date;
 }

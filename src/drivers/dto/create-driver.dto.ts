@@ -1,4 +1,4 @@
-import { IsBoolean, IsString, ValidateIf } from 'class-validator';
+import { IsBoolean, IsNumber, IsString, ValidateIf } from 'class-validator';
 
 export class CreateDriverDto {
   @IsString()
@@ -26,4 +26,6 @@ export class CreateDriverDto {
   @IsString()
   @ValidateIf((object, value) => value !== null)
   driverObs: string;
+  @IsNumber()
+  clientId: number;
 }

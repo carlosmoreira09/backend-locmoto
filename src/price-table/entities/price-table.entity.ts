@@ -20,6 +20,11 @@ export class PriceTableEntity {
   @Column()
   tenant: number;
 
+  @Column()
+  validFrom: Date;
+  @Column()
+  validTo: Date;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 

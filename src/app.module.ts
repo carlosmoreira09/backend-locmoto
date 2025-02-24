@@ -12,7 +12,6 @@ import { TenantModule } from './tenant/tenant.module';
 import { ClientsModule } from './clients/clients.module';
 import { DriversModule } from './drivers/drivers.module';
 import { VehiclesModule } from './vehicles/vehicles.module';
-import { TenantMiddleware } from './middlewares/tenant.middleware';
 import { TrafficFinesModule } from './traffic-fines/traffic-fines.module';
 import { VehicleFinancialModule } from './vehicle-financial/vehicle-financial.module';
 import { InsuranceModule } from './insurance/insurance.module';
@@ -55,6 +54,5 @@ import { PriceTableModule } from './price-table/price-table.module';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggingMiddleware).forRoutes('*');
-    consumer.apply(TenantMiddleware).forRoutes('*');
   }
 }

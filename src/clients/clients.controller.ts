@@ -36,6 +36,7 @@ export class ClientController {
   async findAll(): Promise<GeneralReturnDto> {
     try {
       const list = await this.clientService.findAll();
+
       return {
         status: 200,
         message: 'Lista de Clientes',

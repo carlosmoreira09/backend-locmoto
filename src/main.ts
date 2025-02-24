@@ -29,11 +29,11 @@ async function bootstrap() {
       transform: true,
       transformOptions: {
         enableImplicitConversion: true,
-      }
+      },
     }),
   );
   app.enableCors({
-    origin: '*', // ou use '*' para permitir todas as origens
+    origin: '*',
     methods: configService.get('METHODS_ALLOW'),
     credentials: true,
   });

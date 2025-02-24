@@ -3,16 +3,23 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateDriverDto } from './dto/create-driver.dto';
 import { DriverEntity } from './entities/driver.entity';
+import { ClientService } from '../clients/clients.service';
 
 @Injectable()
 export class DriversService {
   constructor(
     @InjectRepository(DriverEntity)
     private driverRepository: Repository<DriverEntity>,
+    private clientService: ClientService,
   ) {}
 
   async create(createDriverDto: CreateDriverDto): Promise<DriverEntity> {
-    const driver = this.driverRepository.create(createDriverDto);
+    const client = await this.clientService.findOne(createDriverDto.clientId);
+
+    const driver = this.driverRepository.create({
+      ...createDriverDto,
+      client: client,
+    });
     return await this.driverRepository.save(driver);
   }
 

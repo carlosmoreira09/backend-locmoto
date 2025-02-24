@@ -16,6 +16,9 @@ export class DriverEntity {
   id: number;
 
   @Column()
+  driverName: string;
+
+  @Column()
   motherName: string;
 
   @Column()
