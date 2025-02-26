@@ -8,6 +8,7 @@ import {
   Delete,
   HttpException,
   HttpStatus,
+  Headers,
 } from '@nestjs/common';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { VehicleService } from './vehicles.service';
@@ -21,7 +22,7 @@ export class VehicleController {
   @Post()
   async create(
     @Body() createVehicleDto: CreateVehicleDto,
-    @TenantId('tenantId') tenantId: string,
+    @Headers('x-tenant-id') tenantId: string,
   ) {
     if (!tenantId) {
       throw new HttpException(
@@ -58,7 +59,7 @@ export class VehicleController {
   }
 
   @Get()
-  async findAll(@TenantId('tenantId') tenantId: string) {
+  async findAll(@Headers('x-tenant-id') tenantId: string) {
     if (!tenantId) {
       throw new HttpException(
         {
@@ -92,7 +93,7 @@ export class VehicleController {
   @Get(':id')
   async findOne(
     @Param('id') id: string,
-    @TenantId('tenantId') tenantId: string,
+    @Headers('x-tenant-id') tenantId: string,
   ) {
     if (!id || !tenantId) {
       throw new HttpException(
