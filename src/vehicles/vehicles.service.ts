@@ -26,7 +26,6 @@ export class VehicleService {
       ...createVehicleDto,
       tenant: tenant,
     });
-    console.log(vehicle);
     return await this.vehicleRepository.save(vehicle);
   }
 

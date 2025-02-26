@@ -35,14 +35,10 @@ export class VehicleController {
     }
 
     try {
-      const vehicle = await this.vehicleService.create(
-        createVehicleDto,
-        +tenantId,
-      );
+      await this.vehicleService.create(createVehicleDto, +tenantId);
       return {
         status: HttpStatus.CREATED,
         message: 'Vehicle created successfully',
-        data: vehicle,
       };
     } catch (error) {
       if (error instanceof HttpException) {

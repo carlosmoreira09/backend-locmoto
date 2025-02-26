@@ -38,7 +38,7 @@ export class VehicleEntity {
   @Column()
   modelName: string;
 
-  @Column()
+  @Column({ default: true })
   isActive: string;
 
   @Column({ nullable: true })
@@ -60,6 +60,7 @@ export class VehicleEntity {
   @OneToMany(() => TrafficFineEntity, (driver) => driver.vehicle, {
     cascade: true,
     eager: false,
+    nullable: true
   })
   trafficFines: TrafficFineEntity[];
 
