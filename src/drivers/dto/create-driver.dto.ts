@@ -2,6 +2,8 @@ import { IsBoolean, IsNumber, IsString, ValidateIf } from 'class-validator';
 
 export class CreateDriverDto {
   @IsString()
+  driverName: string;
+  @IsString()
   motherName: string;
   @IsString()
   fatherName: string;
