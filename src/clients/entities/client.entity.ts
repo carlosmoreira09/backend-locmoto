@@ -2,13 +2,15 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity, JoinColumn,
-  OneToMany, OneToOne,
+  Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { DriverEntity } from '../../drivers/entities/driver.entity';
 import { ReceiptEntity } from '../../receipts/entities/receipt.entity';
+import { TrafficFineEntity } from '../../traffic-fines/entities/traffic-fine.entity';
 
 @Entity('clients')
 export class ClientEntity {
@@ -75,12 +77,17 @@ export class ClientEntity {
   @OneToMany(() => DriverEntity, (driver) => driver.client, {
     cascade: true,
     eager: false,
+    nullable: true
   })
   drivers: DriverEntity[];
 
-  @OneToMany(() => ReceiptEntity, (receipt) => receipt.client)
+  @OneToMany(() => ReceiptEntity, (receipt) => receipt.client, { nullable: true})
   @JoinColumn()
   receipts: ReceiptEntity[];
+
+  @OneToMany(() => TrafficFineEntity, (fines) => fines.client, { nullable: true})
+  @JoinColumn()
+  fines: TrafficFineEntity[];
 
   @CreateDateColumn({ name: 'createdAt' })
   createdAt: Date;

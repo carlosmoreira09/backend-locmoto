@@ -6,8 +6,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { VehicleEntity } from '../../vehicles/entities/vehicle.entity';
+import { ClientEntity } from '../../clients/entities/client.entity';
 
 @Entity('traffic_fines')
 export class TrafficFineEntity {
@@ -52,6 +54,10 @@ export class TrafficFineEntity {
 
   @Column()
   uf: string;
+
+  @ManyToOne(() => ClientEntity, (vehicle) => vehicle.receipts)
+  @JoinColumn()
+  client: ClientEntity;
 
   @CreateDateColumn()
   created_at: Date;
