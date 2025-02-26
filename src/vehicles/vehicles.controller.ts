@@ -118,7 +118,7 @@ export class VehicleController {
       }
       return {
         status: HttpStatus.OK,
-        data: vehicle,
+        data: [vehicle],
       };
     } catch (error) {
       if (error instanceof HttpException) {
@@ -159,7 +159,6 @@ export class VehicleController {
       return {
         status: HttpStatus.OK,
         message: 'Vehicle updated successfully',
-        data: vehicle,
       };
     } catch (error) {
       if (error instanceof HttpException) {
@@ -226,7 +225,7 @@ export class VehicleController {
       const vehicles = await this.vehicleService.findByTenant(+tenantId);
       return {
         status: HttpStatus.OK,
-        data: vehicles,
+        data: [vehicles],
       };
     } catch (error) {
       if (error instanceof HttpException) {
