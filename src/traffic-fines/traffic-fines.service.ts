@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { TrafficFineEntity } from './entities/traffic-fine.entity';
 import { CreateTrafficFineDto } from './dto/create-traffic-fine.dto';
 import { VehicleService } from '../vehicles/vehicles.service';
+import { ClientService } from '../clients/clients.service';
 
 @Injectable()
 export class TrafficFineService {
@@ -11,6 +12,7 @@ export class TrafficFineService {
     @InjectRepository(TrafficFineEntity)
     private trafficFineRepository: Repository<TrafficFineEntity>,
     private vehicleService: VehicleService,
+    private clientService: ClientService,
   ) {}
 
   async create(
@@ -20,10 +22,14 @@ export class TrafficFineService {
       const vehicle = await this.vehicleService.findOne(
         createTrafficFineDto.vehicle,
       );
+      const client = await this.clientService.findOne(
+        createTrafficFineDto.clientId,
+      );
 
       const trafficFine = this.trafficFineRepository.create({
         ...createTrafficFineDto,
         vehicle: vehicle,
+        client: client,
       });
       return await this.trafficFineRepository.save(trafficFine);
     } catch (error) {
