@@ -151,11 +151,7 @@ export class VehicleController {
     }
 
     try {
-      const vehicle = await this.vehicleService.update(
-        +id,
-        updateVehicleDto,
-        +tenantId,
-      );
+      await this.vehicleService.update(+id, updateVehicleDto, +tenantId);
       return {
         status: HttpStatus.OK,
         message: 'Vehicle updated successfully',

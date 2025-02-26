@@ -33,7 +33,7 @@ export class TrafficFineService {
       });
       const newFine = await this.trafficFineRepository.save(trafficFine);
       client.fines.push(newFine);
-
+      vehicle.trafficFines.push(newFine);
       return newFine;
     } catch (error) {
       throw new HttpException(

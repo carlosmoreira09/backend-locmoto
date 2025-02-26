@@ -33,14 +33,13 @@ export class VehicleService {
   async findAll(tenantID: number): Promise<VehicleEntity[]> {
     return await this.vehicleRepository.find({
       where: { tenant: { id_tenant: tenantID } },
-      relations: ['tenant'],
     });
   }
 
   async findOne(id: number, tenantID?: number): Promise<VehicleEntity> {
     return await this.vehicleRepository.findOne({
       where: { id, tenant: { id_tenant: tenantID } },
-      relations: ['tenant'],
+      relations: ['tenant', 'trafficFines', 'vehicleFinancial', 'insurance'],
     });
   }
 
