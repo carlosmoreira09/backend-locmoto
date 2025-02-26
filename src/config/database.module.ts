@@ -1,6 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { UsersModule } from '../users/users.module';
 
@@ -15,7 +14,7 @@ import { UsersModule } from '../users/users.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [join(process.cwd(), 'dist/**/*.entity.js')],
+        entities: [__dirname + '/../**/entities/*.entity.{js,ts}'],
         synchronize: true,
       }),
       inject: [ConfigService],
