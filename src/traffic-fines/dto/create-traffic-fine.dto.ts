@@ -28,6 +28,6 @@ export class CreateTrafficFineDto {
   city: string;
   @IsString()
   uf: string;
-  @IsString()
+  @IsNumber()
   clientId: number;
 }
