@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ClientEntity } from './entities/client.entity';
 import { CreateClientDto } from './dto/create-client.dto';
+import { TrafficFineEntity } from '../traffic-fines/entities/traffic-fine.entity';
 
 @Injectable()
 export class ClientService {
@@ -21,13 +22,13 @@ export class ClientService {
   }
 
   async findAll(): Promise<ClientEntity[]> {
-    return await this.clientRepository.find({ relations: ['drivers'] });
+    return await this.clientRepository.find();
   }
 
   async findOne(id: number): Promise<ClientEntity> {
     const client = await this.clientRepository.findOne({
       where: { id_client: id },
-      relations: ['drivers', 'fines'],
+      relations: ['drivers', 'fines', 'receipts'],
     });
     if (!client) {
       throw new NotFoundException(`Client with ID ${id} not found`);
@@ -59,4 +60,5 @@ export class ClientService {
     }
     return client;
   }
+
 }

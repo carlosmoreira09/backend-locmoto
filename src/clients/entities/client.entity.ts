@@ -77,15 +77,19 @@ export class ClientEntity {
   @OneToMany(() => DriverEntity, (driver) => driver.client, {
     cascade: true,
     eager: false,
-    nullable: true
+    nullable: true,
   })
   drivers: DriverEntity[];
 
-  @OneToMany(() => ReceiptEntity, (receipt) => receipt.client, { nullable: true})
+  @OneToMany(() => ReceiptEntity, (receipt) => receipt.client, {
+    nullable: true,
+  })
   @JoinColumn()
   receipts: ReceiptEntity[];
 
-  @OneToMany(() => TrafficFineEntity, (fines) => fines.client, { nullable: true})
+  @OneToMany(() => TrafficFineEntity, (fines) => fines.client, {
+    nullable: true,
+  })
   @JoinColumn()
   fines: TrafficFineEntity[];
 

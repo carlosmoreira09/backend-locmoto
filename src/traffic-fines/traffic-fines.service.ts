@@ -31,7 +31,10 @@ export class TrafficFineService {
         vehicle: vehicle,
         client: client,
       });
-      return await this.trafficFineRepository.save(trafficFine);
+      const newFine = await this.trafficFineRepository.save(trafficFine);
+      client.fines.push(newFine);
+
+      return newFine;
     } catch (error) {
       throw new HttpException(
         'Error creating traffic fine: ' + error.message,
