@@ -46,4 +46,13 @@ export class DriversService {
     const driver = await this.findOne(id);
     return await this.driverRepository.softRemove(driver);
   }
+
+  async findAllDriversID() {
+    return await this.driverRepository.find({
+      select: {
+        id: true,
+        driverName: true,
+      },
+    });
+  }
 }

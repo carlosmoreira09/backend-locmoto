@@ -48,4 +48,12 @@ export class InsuranceService {
     const result = await this.insuranceRepository.delete(id);
     return result.affected > 0;
   }
+  async findAllInsurancesID() {
+    return await this.insuranceRepository.find({
+      select: {
+        id: true,
+        insuranceCompany: true,
+      },
+    });
+  }
 }

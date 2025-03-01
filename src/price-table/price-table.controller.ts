@@ -8,6 +8,7 @@ import {
   HttpStatus,
   HttpException,
   ValidationPipe,
+  Headers,
 } from '@nestjs/common';
 import { PriceTableService } from './price-table.service';
 import { CreatePriceTableDto } from './dto/create-price-table.dto';
@@ -17,20 +18,21 @@ export class PriceTableController {
   constructor(private readonly priceTableService: PriceTableService) {}
 
   @Post()
-  async create(@Body(ValidationPipe) createPriceTableDto: CreatePriceTableDto) {
+  async create(
+    @Body(ValidationPipe) createPriceTableDto: CreatePriceTableDto,
+    @Headers('x-tenant-id') tenantId: string,
+  ) {
     try {
-      const result = await this.priceTableService.create(createPriceTableDto);
+      await this.priceTableService.create(createPriceTableDto, +tenantId);
       return {
         statusCode: HttpStatus.CREATED,
         message: 'Price table entry created successfully',
-        data: result,
       };
     } catch (error) {
       throw new HttpException(
         {
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Error creating price table entry',
-          error: error.message,
+          message: 'Error creating price table entry' + error.message,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
@@ -50,8 +52,32 @@ export class PriceTableController {
       throw new HttpException(
         {
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Error fetching price table entries',
-          error: error.message,
+          message: 'Error fetching price table entries' + error.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  @Get('vehicle/:id')
+  async findPriceTableByVehicle(
+    @Param('id') id: string,
+    @Headers('x-tenant-id') tenantId: string,
+  ) {
+    try {
+      const result = await this.priceTableService.findPriceByVehicle(
+        +id,
+        +tenantId,
+      );
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Price table entries retrieved successfully',
+        data: result,
+      };
+    } catch (error) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Error fetching price table entries' + error.message,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
@@ -65,7 +91,7 @@ export class PriceTableController {
       return {
         statusCode: HttpStatus.OK,
         message: 'Price table entry retrieved successfully',
-        data: result,
+        data: [result],
       };
     } catch (error) {
       if (error instanceof HttpException) {
@@ -74,8 +100,7 @@ export class PriceTableController {
       throw new HttpException(
         {
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Error fetching price table entry',
-          error: error.message,
+          message: 'Error fetching price table entry' + error.message,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
@@ -97,8 +122,7 @@ export class PriceTableController {
       throw new HttpException(
         {
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Error deleting price table entry',
-          error: error.message,
+          message: 'Error deleting price table entry' + error.message,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );

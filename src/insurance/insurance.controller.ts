@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { InsuranceService } from './insurance.service';
 import { CreateInsuranceDto } from './dto/create-insurance.dto';
+import { GeneralReturnDto } from '../types/generalReturn.dto';
 
 @Controller('insurance')
 export class InsuranceController {
@@ -70,7 +71,20 @@ export class InsuranceController {
       );
     }
   }
+  @Get('/ids')
+  async findAllInsuranceID(): Promise<GeneralReturnDto> {
+    try {
+      const list = await this.insuranceService.findAllInsurancesID();
 
+      return {
+        status: 200,
+        message: 'Lista de IDs de Seguros',
+        data: list,
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
   // Update
   @Put(':id')
   async update(

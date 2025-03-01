@@ -7,20 +7,29 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePriceTableDto } from './dto/create-price-table.dto';
 import { PriceTableEntity } from './entities/price-table.entity';
+import { VehicleService } from '../vehicles/vehicles.service';
 
 @Injectable()
 export class PriceTableService {
   constructor(
     @InjectRepository(PriceTableEntity)
     private priceTableRepository: Repository<PriceTableEntity>,
+    private vehicleService: VehicleService,
   ) {}
 
   async create(
     createPriceTableDto: CreatePriceTableDto,
+    id_tenant: number,
   ): Promise<PriceTableEntity> {
     try {
-
-      const priceTable = this.priceTableRepository.create(createPriceTableDto);
+      const vehicle = await this.vehicleService.findOne(
+        createPriceTableDto.vehicle,
+      );
+      const priceTable = this.priceTableRepository.create({
+        ...createPriceTableDto,
+        vehicle: vehicle,
+        tenant: { id_tenant: id_tenant },
+      });
       return await this.priceTableRepository.save(priceTable);
     } catch (error) {
       throw new InternalServerErrorException(
@@ -34,7 +43,7 @@ export class PriceTableService {
       return await this.priceTableRepository.find();
     } catch (error) {
       throw new InternalServerErrorException(
-        'Error fetching price table entries',
+        'Error fetching price table entries' + error.message,
       );
     }
   }
@@ -76,5 +85,20 @@ export class PriceTableService {
         'Error deleting price table entry',
       );
     }
+  }
+  async findPriceByVehicle(id_vehicle: number, id_tenant: number) {
+    return await this.priceTableRepository.find({
+      select: {
+        id: true,
+        price: true,
+        period: true,
+      },
+      where: {
+        vehicle: {
+          id: id_vehicle,
+        },
+        tenant: { id_tenant: id_tenant },
+      },
+    });
   }
 }

@@ -12,6 +12,7 @@ import {
 import { DriversService } from './drivers.service';
 import { CreateDriverDto } from './dto/create-driver.dto';
 import { UpdateDriverDto } from './dto/update-driver.dto';
+import { GeneralReturnDto } from '../types/generalReturn.dto';
 
 @Controller('drivers')
 export class DriversController {
@@ -57,7 +58,20 @@ export class DriversController {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
+  @Get('/ids')
+  async findAllDriversID(): Promise<GeneralReturnDto> {
+    try {
+      const list = await this.driversService.findAllDriversID();
 
+      return {
+        status: 200,
+        message: 'Lista de IDs de Motoristas',
+        data: list,
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
   @Patch(':id')
   async update(
     @Param('id') id: string,

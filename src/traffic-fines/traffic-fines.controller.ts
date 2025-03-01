@@ -19,12 +19,10 @@ export class TrafficFineController {
   @Post()
   async create(@Body() createTrafficFineDto: CreateTrafficFineDto) {
     try {
-      const trafficFine =
-        await this.trafficFineService.create(createTrafficFineDto);
+      await this.trafficFineService.create(createTrafficFineDto);
       return {
         status: HttpStatus.CREATED,
         message: 'Traffic fine created successfully',
-        data: trafficFine,
       };
     } catch (error) {
       throw new HttpException(
@@ -73,7 +71,7 @@ export class TrafficFineController {
       const trafficFine = await this.trafficFineService.findOne(+id);
       return {
         status: HttpStatus.OK,
-        data: trafficFine,
+        data: [trafficFine],
       };
     } catch (error) {
       if (error instanceof HttpException) throw error;
@@ -103,14 +101,10 @@ export class TrafficFineController {
     }
 
     try {
-      const trafficFine = await this.trafficFineService.update(
-        +id,
-        updateTrafficFineDto,
-      );
+      await this.trafficFineService.update(+id, updateTrafficFineDto);
       return {
         status: HttpStatus.OK,
         message: 'Traffic fine updated successfully',
-        data: trafficFine,
       };
     } catch (error) {
       if (error instanceof HttpException) throw error;

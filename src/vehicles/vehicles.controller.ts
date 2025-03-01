@@ -202,7 +202,7 @@ export class VehicleController {
   }
 
   @Get('/tenant')
-  async getVehiclesByTenant(@TenantId('tenantId') tenantId: string) {
+  async findVehiclesByTenant(@TenantId('tenantId') tenantId: string) {
     if (!tenantId) {
       throw new HttpException(
         {
@@ -227,6 +227,46 @@ export class VehicleController {
         {
           status: HttpStatus.INTERNAL_SERVER_ERROR,
           error: 'Failed to fetch vehicles by tenant: ' + error,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  @Get('/ids')
+  async findVehiclesIDs(@Headers('x-tenant-id') tenantId: string) {
+    if (!tenantId) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Tenant ID are required',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    try {
+      const vehicle = await this.vehicleService.findVehiclesIDs(+tenantId);
+      if (!vehicle) {
+        throw new HttpException(
+          {
+            status: HttpStatus.NOT_FOUND,
+            error: 'Vehicle not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      return {
+        status: HttpStatus.OK,
+        data: [vehicle],
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: 'Failed to fetch vehicle:' + error,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );

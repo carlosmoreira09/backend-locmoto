@@ -1,12 +1,14 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { VehicleEntity } from '../../vehicles/entities/vehicle.entity';
 import { ReceiptEntity } from '../../receipts/entities/receipt.entity';
+import { PriceTableEntity } from '../../price-table/entities/price-table.entity';
 
 @Entity({ name: 'tenant' })
 export class TenantEntity {
@@ -27,4 +29,7 @@ export class TenantEntity {
 
   @OneToOne(() => ReceiptEntity, (receipt) => receipt.tenant)
   receipt: ReceiptEntity;
+
+  @OneToOne(() => PriceTableEntity, (tenant) => tenant.tenant)
+  priceTable: PriceTableEntity;
 }

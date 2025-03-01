@@ -61,4 +61,12 @@ export class ClientService {
     return client;
   }
 
+  async findAllClientsID() {
+    return await this.clientRepository.find({
+      select: {
+        id_client: true,
+        fullName: true,
+      },
+    });
+  }
 }

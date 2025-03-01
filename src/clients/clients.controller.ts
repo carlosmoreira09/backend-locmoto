@@ -46,6 +46,20 @@ export class ClientController {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
+  @Get('/ids')
+  async findAllClientsID(): Promise<GeneralReturnDto> {
+    try {
+      const list = await this.clientService.findAllClientsID();
+
+      return {
+        status: 200,
+        message: 'Lista de IDs de Clientes',
+        data: list,
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
 
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<GeneralReturnDto> {

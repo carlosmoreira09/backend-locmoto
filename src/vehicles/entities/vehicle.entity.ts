@@ -11,6 +11,7 @@ import { TenantEntity } from '../../tenant/entities/tenant.entity';
 import { TrafficFineEntity } from '../../traffic-fines/entities/traffic-fine.entity';
 import { VehicleFinancialEntity } from '../../vehicle-financial/entities/vehicle-financial.entity';
 import { InsuranceEntity } from '../../insurance/entities/insurance.entity';
+import { PriceTableEntity } from '../../price-table/entities/price-table.entity';
 
 @Entity('vehicles')
 export class VehicleEntity {
@@ -60,7 +61,7 @@ export class VehicleEntity {
   @OneToMany(() => TrafficFineEntity, (driver) => driver.vehicle, {
     cascade: true,
     eager: false,
-    nullable: true
+    nullable: true,
   })
   trafficFines: TrafficFineEntity[];
 
@@ -68,6 +69,10 @@ export class VehicleEntity {
     nullable: true,
   })
   vehicleFinancial: VehicleFinancialEntity;
+
+  @OneToOne(() => PriceTableEntity, (priceTable) => priceTable.vehicle)
+  @JoinColumn()
+  priceTable: PriceTableEntity;
 
   @OneToOne(() => InsuranceEntity, (financial) => financial.vehicle, {
     nullable: true,

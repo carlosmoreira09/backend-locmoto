@@ -69,4 +69,17 @@ export class VehicleService {
       relations: ['tenant'],
     });
   }
+  async findVehiclesIDs(tenantId: number): Promise<VehicleEntity[]> {
+    return await this.vehicleRepository.find({
+      select: {
+        id: true,
+        plateNumber: true,
+      },
+      where: {
+        tenant: {
+          id_tenant: tenantId,
+        },
+      },
+    });
+  }
 }

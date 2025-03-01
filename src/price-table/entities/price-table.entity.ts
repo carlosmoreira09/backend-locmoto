@@ -1,12 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
+import { TenantEntity } from '../../tenant/entities/tenant.entity';
+import { VehicleEntity } from '../../vehicles/entities/vehicle.entity';
 
 @Entity('price_table')
 export class PriceTableEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  vehicle: number;
+  @OneToOne(() => VehicleEntity, (vehicle) => vehicle.priceTable)
+  @JoinColumn()
+  vehicle: VehicleEntity;
 
   @Column('decimal', { precision: 10, scale: 2 })
   price: number;
@@ -17,8 +26,9 @@ export class PriceTableEntity {
   @Column()
   period: string;
 
-  @Column()
-  tenant: number;
+  @OneToOne(() => TenantEntity, (tenant) => tenant.receipt)
+  @JoinColumn()
+  tenant: TenantEntity;
 
   @Column()
   validFrom: Date;
