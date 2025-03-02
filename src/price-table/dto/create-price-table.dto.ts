@@ -1,4 +1,4 @@
-import { IsDate, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
 
 export class CreatePriceTableDto {
   @IsNumber()
@@ -9,6 +9,8 @@ export class CreatePriceTableDto {
   updateBy: number;
   @IsString()
   period: string;
+  @IsBoolean()
+  isActive: boolean;
   @IsDate()
   validFrom: Date;
   @IsDate()

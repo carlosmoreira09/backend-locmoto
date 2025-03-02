@@ -21,9 +21,14 @@ export class PriceTableController {
   async create(
     @Body(ValidationPipe) createPriceTableDto: CreatePriceTableDto,
     @Headers('x-tenant-id') tenantId: string,
+    @Headers('x-user-id') userId: string,
   ) {
     try {
-      await this.priceTableService.create(createPriceTableDto, +tenantId);
+      await this.priceTableService.create(
+        createPriceTableDto,
+        +tenantId,
+        +userId,
+      );
       return {
         statusCode: HttpStatus.CREATED,
         message: 'Price table entry created successfully',

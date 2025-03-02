@@ -2,11 +2,13 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity,
+  Entity, ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   Timestamp,
 } from 'typeorm';
 import { Role } from '../../types/Role.enum';
+import { PriceTableEntity } from '../../price-table/entities/price-table.entity';
 
 @Entity({ name: 'users' })
 export class UsersEntity {
@@ -38,6 +40,11 @@ export class UsersEntity {
 
   @Column()
   role: Role;
+
+  @ManyToOne(() => PriceTableEntity, (price) => price.updateBy, {
+    nullable: true,
+  })
+  price: PriceTableEntity;
 
   @Column({
     name: 'updated_at',

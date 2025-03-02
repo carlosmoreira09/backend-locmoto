@@ -4,9 +4,11 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { TenantEntity } from '../../tenant/entities/tenant.entity';
 import { VehicleEntity } from '../../vehicles/entities/vehicle.entity';
+import { UsersEntity } from '../../users/entities/user.entity';
 
 @Entity('price_table')
 export class PriceTableEntity {
@@ -20,11 +22,17 @@ export class PriceTableEntity {
   @Column('decimal', { precision: 10, scale: 2 })
   price: number;
 
-  @Column()
-  updateBy: number;
+  @OneToMany(() => UsersEntity, (user) => user.id_user, {
+    nullable: true,
+  })
+  @JoinColumn()
+  updateBy: UsersEntity;
 
   @Column()
   period: string;
+
+  @Column({ default: true })
+  isActive: boolean;
 
   @OneToOne(() => TenantEntity, (tenant) => tenant.receipt)
   @JoinColumn()
