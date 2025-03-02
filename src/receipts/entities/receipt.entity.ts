@@ -1,4 +1,3 @@
-// receipt.entity.ts
 import {
   Entity,
   Column,

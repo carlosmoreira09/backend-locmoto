@@ -1,10 +1,10 @@
-// receipt.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateReceiptDto } from './dto/create-receipt.dto';
 import { ReceiptEntity } from './entities/receipt.entity';
 import { ClientService } from '../clients/clients.service';
+import { TenantService } from '../tenant/tenant.service';
 
 @Injectable()
 export class ReceiptService {
@@ -14,11 +14,21 @@ export class ReceiptService {
     private clientService: ClientService,
   ) {}
 
-  async create(createReceiptDto: CreateReceiptDto): Promise<ReceiptEntity> {
+  async create(
+    createReceiptDto: CreateReceiptDto,
+    tenantID: number,
+  ): Promise<ReceiptEntity> {
     const client = await this.clientService.findOne(createReceiptDto.client);
+    if (!client) {
+      throw new NotFoundException(
+        `Client ID ${createReceiptDto.client} not found`,
+      );
+    }
+
     const receipt = this.receiptRepository.create({
       ...createReceiptDto,
       client: client,
+      tenant: { id_tenant: tenantID },
     });
     return await this.receiptRepository.save(receipt);
   }

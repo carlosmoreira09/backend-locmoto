@@ -10,10 +10,12 @@ import {
   HttpStatus,
   ParseIntPipe,
   NotFoundException,
+  Headers,
 } from '@nestjs/common';
 import { CreateReceiptDto } from './dto/create-receipt.dto';
 import { ReceiptService } from './receipts.service';
 import { ReceiptEntity } from './entities/receipt.entity';
+import { GeneralReturnDto } from '../types/generalReturn.dto';
 
 @Controller('receipts')
 export class ReceiptController {
@@ -22,9 +24,14 @@ export class ReceiptController {
   @Post()
   async create(
     @Body() createReceiptDto: CreateReceiptDto,
-  ): Promise<ReceiptEntity> {
+    @Headers('x-tenant-id') tenantID: string,
+  ): Promise<GeneralReturnDto> {
     try {
-      return await this.receiptService.create(createReceiptDto);
+      await this.receiptService.create(createReceiptDto, +tenantID);
+      return {
+        status: HttpStatus.CREATED,
+        message: 'Recibo Criado',
+      };
     } catch (error) {
       throw new HttpException(
         {

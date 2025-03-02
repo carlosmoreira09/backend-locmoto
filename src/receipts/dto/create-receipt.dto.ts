@@ -19,4 +19,6 @@ export class CreateReceiptDto {
   client: number;
   @IsNumber({ maxDecimalPlaces: 2 })
   price: number;
+  @IsNumber()
+  tenant: number;
 }
