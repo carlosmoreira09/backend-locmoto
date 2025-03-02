@@ -9,8 +9,6 @@ export class CreatePriceTableDto {
   updateBy: number;
   @IsString()
   period: string;
-  @IsString()
-  tenant: number;
   @IsDate()
   validFrom: Date;
   @IsDate()
